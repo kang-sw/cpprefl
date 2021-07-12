@@ -1,0 +1,8 @@
+_ReSharper.Caches/
+out/
+.vs
+
+/Folder.DotSettings.user
+
+build/
+.vscode

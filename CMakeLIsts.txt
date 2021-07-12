@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.1)
+project(cppmarkup)
+
+## === PP -----------------------------------------------------------------------------------------
+if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
+    # target_compile_options(stxxl INTERFACE "/Zc:__cplusplus")
+    add_compile_options("/Zc:__cplusplus")
+endif()
+
+set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
+
+## === THIRD --------------------------------------------------------------------------------------
+add_subdirectory            (third)
+
+## === TARGET: CPPMARKUP --------------------------------------------------------------------------
+# -- SOURCE 
+set                         (CPPMARKUP_INCLUDE_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# -- TARGET LIBRARY
+add_library                 (CPPMARKUP_lib      INTERFACE)
+add_library                 (kangsw::cppmarkup  ALIAS       CPPMARKUP_lib)
+
+target_compile_features     (CPPMARKUP_lib      INTERFACE   cxx_std_20)
+target_include_directories  (CPPMARKUP_lib      INTERFACE   ${CPPMARKUP_INCLUDE_DIR})
+target_compile_definitions  (CPPMARKUP_lib      INTERFACE   "_CRT_SECURE_NO_WARNINGS")
+
+# -- INSTALLATIONS
+
+## === TARGET: EXTENSIONS -------------------------------------------------------------------------
+
+## === TEST ---------------------------------------------------------------------------------------
+add_subdirectory(tests)
